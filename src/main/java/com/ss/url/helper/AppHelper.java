@@ -2,7 +2,6 @@ package com.ss.url.helper;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

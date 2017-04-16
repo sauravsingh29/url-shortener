@@ -4,6 +4,7 @@ import com.ss.url.entity.URLDetails;
 import com.ss.url.request.URLRequest;
 import com.ss.url.response.URLResponse;
 import com.ss.url.service.URLService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 /**
  * Created by Saurav on 14-04-2017.
@@ -32,8 +33,9 @@ public class URLController {
         this.urlService = registerService;
     }
 
+    @ApiOperation(value = "Register url to short url", notes = "Requires a ulr string for registration purpose", response = URLResponse.class, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerUrl(@RequestBody URLRequest urlRequest, @RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<?> registerUrl(@RequestBody URLRequest urlRequest, @RequestHeader(value = "Authorization", required = true) String authorization) {
         LOGGER.debug("Register process invoked with params :: {}", urlRequest.toString());
         if (null != urlRequest && !StringUtils.hasText(urlRequest.getUrl()))
             return new ResponseEntity<>("Missing mandatory url that needs shortening", HttpStatus.BAD_REQUEST);
@@ -51,12 +53,13 @@ public class URLController {
         }
     }
 
+    @ApiOperation(value = "stat based on accountId", notes = "Requires accountId from path parameter to get statistics of url", response = Map.class, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/statistic/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> accountStatics(@PathVariable("accountId") String accountId) {
+    public ResponseEntity<?> accountStatics(@PathVariable(value = "accountId", required = true) String accountId) {
         return new ResponseEntity<>(urlService.getStatByAccountId(accountId), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{shortUrl}")
+    @GetMapping(value = "/redirect/{shortUrl}")
     public ResponseEntity<?> redirect(@PathVariable("shortUrl") String shortUrl) {
         LOGGER.debug("Redirecting for shortened url {}", shortUrl);
         final URLDetails urlDetails = urlService.getUrlDetailsByShortUrl(shortUrl);

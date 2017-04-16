@@ -3,10 +3,12 @@ package com.ss.url.controller;
 import com.ss.url.request.AccountRequest;
 import com.ss.url.response.AccountResponse;
 import com.ss.url.service.AccountService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,8 @@ public class AccountController {
     }
 
 
-    @PostMapping(value = "/account")
+    @ApiOperation(value = "Create Account", notes = "Requires AccountId to create account", response = AccountResponse.class, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/account", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createAccount(@RequestBody(required = true) AccountRequest accountRequest) {
         if (null != accountRequest && !StringUtils.hasText(accountRequest.getAccountId()))
             return new ResponseEntity<String>("Missing AccountId from request body.", HttpStatus.BAD_REQUEST);

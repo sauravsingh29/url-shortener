@@ -38,7 +38,7 @@ public class URLCache extends AppCache<URLDetails> {
     }
 
     /**
-     * G et URLDetails {@link URLDetails} map object based on accountId
+     * Get URLDetails {@link URLDetails} map object based on accountId
      *
      * @param accountId
      * @return
@@ -50,6 +50,22 @@ public class URLCache extends AppCache<URLDetails> {
             if (accountId.equals(cache.get(key).getAccountId()))
                 details.put(cache.get(key).getUrl(), cache.get(key));
         return details;
+    }
+
+    /**
+     * Only used on internal purpose
+     *
+     * @return
+     */
+    public String registerUrlInfo() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<h1>").append("URL Registration Information").append("</h1>");
+        buffer.append("<br>").append("</br>");
+        for (URLDetails urlDetails : cache.values()) {
+            buffer.append("<br>").append(urlDetails.toString()).append("</br>");
+        }
+        buffer.append("</body>").append("</html>");
+        return buffer.toString();
     }
 
 }

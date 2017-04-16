@@ -14,6 +14,7 @@ public class Account implements Serializable {
 
     private static final long serialVersionUID = 7486282651220621860L;
 
+    @Getter
     private String accountId;
 
     @Getter

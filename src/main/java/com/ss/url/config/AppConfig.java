@@ -26,7 +26,7 @@ import java.io.PrintWriter;
 @Configuration
 @EnableWebSecurity
 public class AppConfig extends WebSecurityConfigurerAdapter {
-    private static String REALM = "MY_TEST_REALM";
+    private static String REALM = "URL_SHORTENER";
 
     private BasicAuthService authService;
 
@@ -51,6 +51,7 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/account");
+        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
     @Bean
@@ -77,7 +78,7 @@ class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint 
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        setRealmName("MY_TEST_REALM");
+        setRealmName("URL_SHORTENER");
         super.afterPropertiesSet();
     }
 }

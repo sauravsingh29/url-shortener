@@ -85,9 +85,7 @@ public class URLService {
         return statMap;
     }
 
-    public URLDetails getUrlDetailsByShortUrl(final String shortUrl){
+    public URLDetails getUrlDetailsByShortUrl(final String shortUrl) {
         return urlCache.getUrlDetailsByShortUrl(shortUrl);
     }
-
-
 }
