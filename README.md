@@ -1,6 +1,6 @@
-#url-shortener program
+# url-shortener program
 
-##Foreword
+## Foreword
 This is sample program which consist of two features:
 * `Open account and provide userId and password[in encrypted].`
 * `Register url and return shortened url.`
