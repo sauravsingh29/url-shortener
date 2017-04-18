@@ -1,8 +1,7 @@
 package com.ss.url.repository;
 
-import com.ss.url.UrlException;
-import com.ss.url.entity.StatisticsDetails;
 import com.ss.url.entity.URLDetails;
+import com.ss.url.exception.UrlException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -32,6 +31,15 @@ public interface URLRepository extends CrudRepository<URLDetails, Integer> {
      * @return
      * @throws UrlException
      */
-    @Query("SELECT URL.URL, URL.VISIT_COUNT FROM URL.REGISTRATION REG WHERE REG.ACC_ID = : accountId")
-    List<StatisticsDetails> findURLDetailsByAccountId(@Param("accountId") final String accountId) throws UrlException;
+    @Query(value = "SELECT REG.URL, REG.VISIT_COUNT FROM URL.REGISTRATION REG WHERE REG.ACC_ID = :accountId", nativeQuery = true)
+    List<Object[]> findURLDetailsByAccountId(@Param("accountId") final String accountId) throws UrlException;
+
+    /**
+     * Find URLDetails {@link URLDetails} by url.
+     *
+     * @param shortUrl {@link String} by tiny url
+     * @return URLDetails
+     * @throws UrlException
+     */
+    URLDetails findURLDetailsByShortUrl(final String shortUrl) throws UrlException;
 }

@@ -1,4 +1,4 @@
-package com.ss.url;
+package com.ss.url.exception;
 
 /**
  * Created by Saurav on 18-04-2017.

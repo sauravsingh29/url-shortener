@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.Locale;
 
+import static com.ss.url.Constants.VALIDATION;
+
 /**
  * Created by Saurav on 18-04-2017.
  */
@@ -32,7 +34,7 @@ public class AdviceController {
         BindingResult result = ex.getBindingResult();
         List<FieldError> errors = result.getFieldErrors();
 
-        return new ResponseEntity<ErrorResponse>(new ErrorResponse("REQUEST_BODY_VALIDATION", processFieldError(errors), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResponse(VALIDATION, processFieldError(errors), HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
     }
 
     private String processFieldError(List<FieldError> errors) {

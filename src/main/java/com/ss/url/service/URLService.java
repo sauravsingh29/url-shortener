@@ -1,8 +1,7 @@
 package com.ss.url.service;
 
-import com.ss.url.UrlException;
-import com.ss.url.entity.StatisticsDetails;
 import com.ss.url.entity.URLDetails;
+import com.ss.url.exception.UrlException;
 import com.ss.url.repository.AccountRepository;
 import com.ss.url.repository.URLRepository;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,8 +73,6 @@ public class URLService {
                 urlDetails.setAccount(accountRepository.findOne(getAccountIdAuthHeader(authorization)));
                 urlRepository.save(urlDetails);
             }
-        } catch (MalformedURLException e) {
-            throw new UrlException(e.getLocalizedMessage(), e);
         } catch (Exception e) {
             throw new UrlException(e.getLocalizedMessage(), e);
         }
@@ -98,6 +94,7 @@ public class URLService {
         }
         if (null != urlDetails) {
             urlDetails.setRedirectCount(urlDetails.getRedirectCount() + 1);
+            urlRepository.save(urlDetails);
         } else {
             throw new UrlException(String.format("Url %s is not registered with us", url), null);
         }
@@ -112,14 +109,24 @@ public class URLService {
     public Map<String, Integer> getStatByAccountId(final String accountId) throws UrlException {
         LOGGER.debug("Service invoked for getting redirect stat with url using filter param --> {}", accountId);
         final Map<String, Integer> statMap = new HashMap<>(0);
-        List<StatisticsDetails> statisticsDetails = null;
+        List<Object[]> statisticsDetails = null;
         try {
             statisticsDetails = urlRepository.findURLDetailsByAccountId(accountId);
         } catch (Exception e) {
             throw new UrlException(e.getLocalizedMessage(), e);
         }
-        statisticsDetails.forEach(sd -> statMap.put(sd.getUrl(), sd.getCount()));
+        statisticsDetails.forEach(sd -> statMap.put((String) sd[0], Integer.valueOf(String.valueOf(sd[1]))));
         return statMap;
     }
 
+    /**
+     * Find URLDetails {@link URLDetails} by url.
+     *
+     * @param shortUrl {@link String} by shortened url
+     * @return URLDetails
+     * @throws UrlException
+     */
+    public URLDetails getUrlDetailsByShortUrl(final String shortUrl) throws UrlException {
+        return urlRepository.findURLDetailsByShortUrl(shortUrl);
+    }
 }

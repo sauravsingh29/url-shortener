@@ -10,7 +10,7 @@ This is sample program which consist of two features:
     ### ``Internal Features``
     * ` Endponit is exposed to view all opened account information`
     * ` Endpoint is exposed to view registered url information`
-
+* `i18n support enabled.`
 ## Future Improvement
 * Need work on url shorting string to ensure always produce unique random string.
 

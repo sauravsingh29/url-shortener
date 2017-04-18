@@ -1,6 +1,6 @@
 package com.ss.url.controller;
 
-import com.ss.url.UrlException;
+import com.ss.url.exception.UrlException;
 import com.ss.url.request.AccountRequest;
 import com.ss.url.response.AccountResponse;
 import com.ss.url.service.AccountService;

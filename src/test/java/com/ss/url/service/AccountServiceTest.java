@@ -1,7 +1,7 @@
 package com.ss.url.service;
 
-import com.ss.url.UrlException;
 import com.ss.url.entity.Account;
+import com.ss.url.exception.UrlException;
 import com.ss.url.repository.AccountRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;

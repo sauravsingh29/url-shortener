@@ -1,9 +1,8 @@
 package com.ss.url.service;
 
-import com.ss.url.UrlException;
 import com.ss.url.entity.Account;
-import com.ss.url.entity.StatisticsDetails;
 import com.ss.url.entity.URLDetails;
+import com.ss.url.exception.UrlException;
 import com.ss.url.repository.AccountRepository;
 import com.ss.url.repository.URLRepository;
 import org.junit.Before;
@@ -99,14 +98,17 @@ public class URLServiceTest {
     public void incrementVisitCount() throws UrlException {
         URLDetails urlDetails = getUrlDetails();
         when(urlRepository.findURLDetailsByUrl(anyString())).thenReturn(urlDetails);
+        when(urlRepository.save(any(URLDetails.class))).thenReturn(urlDetails);
         urlService.incrementCounter("\"http://localhost:8080/xTtsfa\"");
         assertEquals(1, urlDetails.getRedirectCount());
+        verify(urlRepository, times(1)).save(any(URLDetails.class));
     }
 
     @Test(expected = UrlException.class)
     public void incrementVisitCountException() throws UrlException {
         when(urlRepository.findURLDetailsByUrl(anyString())).thenReturn(null);
         urlService.incrementCounter("\"http://localhost:8080/xTtsfa\"");
+        verify(urlRepository, never()).save(any(URLDetails.class));
     }
 
     @Test(expected = UrlException.class)
@@ -117,10 +119,8 @@ public class URLServiceTest {
 
     @Test
     public void getStatisticsByAccountId() throws UrlException {
-        StatisticsDetails statisticsDetails = new StatisticsDetails();
-        statisticsDetails.setCount(10);
-        statisticsDetails.setUrl(url);
-        List<StatisticsDetails> statistics = new ArrayList<>(0);
+        Object[] statisticsDetails = {url, 10};
+        List<Object[]> statistics = new ArrayList<>(0);
         statistics.add(statisticsDetails);
         when(urlRepository.findURLDetailsByAccountId(anyString())).thenReturn(statistics);
         Map<String, Integer> actual = urlService.getStatByAccountId("admin");
