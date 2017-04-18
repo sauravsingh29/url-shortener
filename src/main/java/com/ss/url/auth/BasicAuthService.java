@@ -1,7 +1,7 @@
 package com.ss.url.auth;
 
-import com.ss.url.cache.AccountCache;
 import com.ss.url.entity.Account;
+import com.ss.url.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,20 +19,17 @@ import java.util.Arrays;
 @Service
 public class BasicAuthService implements UserDetailsService {
 
-    private AccountCache accountCache;
-
     @Autowired
-    public BasicAuthService(AccountCache accountCache) {
-        this.accountCache = accountCache;
-    }
+    private AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String accountId) throws UsernameNotFoundException {
-        final Account account = accountCache.getFromCache(accountId);
+        final Account account = accountRepository.findOne(accountId);
         if (null != account) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("user");
             return new User(accountId, account.getPassword(), Arrays.asList(grantedAuthority));
         }
         throw new UsernameNotFoundException(String.format("Account %s in not authorised to access service.", accountId));
     }
+
 }

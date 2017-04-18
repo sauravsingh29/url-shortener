@@ -13,7 +13,6 @@ This is sample program which consist of two features:
 
 ## Future Improvement
 * Need work on url shorting string to ensure always produce unique random string.
-* May be later point persistence data option from in memory. 
 
 
 ## Demo Setup

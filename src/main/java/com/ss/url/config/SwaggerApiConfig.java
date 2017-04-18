@@ -26,7 +26,7 @@ public class SwaggerApiConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("URL Shortening rest apidocumentation")
+                .title("URL Shortening rest api documentation")
                 .description("URL Shortening rest api with with Swagger Api documentation")
                 .termsOfServiceUrl("https://www.ssingh.com/terms-of-use")
                 .contact(new Contact("Saurav Singh", "www.ssingh.com", "sauravsingh7@outlook.om"))

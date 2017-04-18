@@ -2,13 +2,13 @@ package com.ss.url.helper;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Saurav on 16-04-2017.
  */
 public class AppHelperTest {
-
 
 
     @Test
@@ -29,7 +29,7 @@ public class AppHelperTest {
     @Test
     public void getAccountIdAuthHeader() throws Exception {
         String auth = "Basic YWRtaW46YWRtaW4=";
-        String actual= AppHelper.getAccountIdAuthHeader(auth);
+        String actual = AppHelper.getAccountIdAuthHeader(auth);
         assertTrue(actual.equals("admin"));
     }
 
