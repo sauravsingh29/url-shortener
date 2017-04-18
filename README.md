@@ -18,3 +18,5 @@ This is sample program which consist of two features:
 ## Demo Setup
 1. Checkout project from https://github.com/sauravsingh29/url-shortener.git
 2. Run application as spring boot from ide or maven command *mvn spring-boot:run*
+3. Access H2 in-memory console using http://localhost:8080/h2-console. [Get jdbc info from application.properties]
+
